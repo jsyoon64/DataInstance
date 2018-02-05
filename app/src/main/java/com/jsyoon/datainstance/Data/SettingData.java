@@ -1,10 +1,15 @@
 package com.jsyoon.datainstance.Data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.Bindable;
 import android.databinding.BaseObservable;
+import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 
 import com.jsyoon.datainstance.BR;
+import com.jsyoon.datainstance.R;
 
 
 public class SettingData extends BaseObservable {
@@ -69,5 +74,51 @@ public class SettingData extends BaseObservable {
     public void setTextSize(int size) {
         textsize = size;
         notifyPropertyChanged(BR.textSize);
+    }
+
+    public void InitData(Context context) {
+        this.context = context;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        setSetting1(sharedPreferences.getBoolean(context.getString(R.string.key_setting1), true));
+        setSetting2(sharedPreferences.getBoolean(context.getString(R.string.key_setting2), true));
+        String col = sharedPreferences.getString(context.getString(R.string.key_text_color), context.getString(R.string.color_red));
+        setColorString(col);
+        setTextColor(getColorIntFromColorString(col));
+        setTextSize(Integer.parseInt(sharedPreferences.getString(
+                context.getString(R.string.key_text_size),
+                context.getString(R.string.text_size_default))));
+    }
+
+    public void updateData(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(context.getString(R.string.key_setting1))) {
+            setSetting1(sharedPreferences.getBoolean(key, true));
+        } else if (key.equals(context.getString(R.string.key_setting2))) {
+            setSetting2(sharedPreferences.getBoolean(key, true));
+        } else if (key.equals(context.getString(R.string.key_text_color))) {
+            String col = sharedPreferences.getString(key, context.getString(R.string.color_red));
+            setColorString(col);
+            setTextColor(getColorIntFromColorString(col));
+        } else if (key.equals(context.getString(R.string.key_text_size))) {
+            setTextSize(Integer.parseInt(sharedPreferences.getString(
+                    context.getString(R.string.key_text_size),
+                    context.getString(R.string.text_size_default))));
+        }
+    }
+
+    private int getColorIntFromColorString(String newColorKey) {
+
+        @ColorInt
+        int textColor;
+
+        if (newColorKey.equals(context.getString(R.string.color_red))) {
+            textColor = ContextCompat.getColor(context, R.color.myRed);
+        } else if (newColorKey.equals(context.getString(R.string.color_blue))) {
+            textColor = ContextCompat.getColor(context, R.color.myBlue);
+        } else {
+            textColor = ContextCompat.getColor(context, R.color.myGreen);
+        }
+
+        return textColor;
     }
 }

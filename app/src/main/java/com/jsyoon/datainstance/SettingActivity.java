@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.jsyoon.datainstance.Data.SettingData;
+
 public class SettingActivity extends AppCompatActivity {
 
     @Override
@@ -25,6 +27,8 @@ public class SettingActivity extends AppCompatActivity {
     public static class SettingFragment extends PreferenceFragment implements
             SharedPreferences.OnSharedPreferenceChangeListener ,
             Preference.OnPreferenceChangeListener {
+
+        SettingData data=SettingData.getInstance();
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class SettingActivity extends AppCompatActivity {
             // Figure out which preference was changed
             Preference preference = findPreference(key);
             findListPreferenceNSetSummary(sharedPreferences, preference);
+            data.updateData(sharedPreferences, key);
         }
 
         // is triggered before a value is saved to the SharedPreferences file.

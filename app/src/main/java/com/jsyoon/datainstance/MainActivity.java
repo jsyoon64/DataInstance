@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
+        data.InitData(this);
         binding.setData(data);
 
         binding.option.setOnClickListener(new Button.OnClickListener() {

@@ -8,6 +8,9 @@ import com.jsyoon.datainstance.BR;
 
 
 public class SettingData extends BaseObservable {
+
+    private static SettingData instance;
+
     Context context;
 
     private boolean setting1;
@@ -15,6 +18,16 @@ public class SettingData extends BaseObservable {
     private String colorstring;
     private int textcolor;
     private int textsize;
+
+    public static SettingData getInstance() {
+
+        synchronized (SettingData.class) {
+            if (instance == null) {
+                instance = new SettingData();
+            }
+            return instance;
+        }
+    }
 
     @Bindable
     public boolean getSetting1() {

@@ -9,7 +9,7 @@ import com.jsyoon.datainstance.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    SettingData data=new SettingData();
+    SettingData data=SettingData.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
